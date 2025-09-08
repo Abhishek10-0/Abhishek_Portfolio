@@ -1034,11 +1034,11 @@ article[data-page].active {
         /* .react { background: linear-gradient(135deg, #61dafb, #21a9c7); } */
         /* .redux { background: linear-gradient(135deg, #764abc, #593d88); } */
         /* .tailwind { background: linear-gradient(135deg, #06b6d4, #0891b2); } */
-        .material-ui { background: linear-gradient(135deg, #0081cb, #1976d2); }
-        .nodejs { background: linear-gradient(135deg, #339933, #66bb6a); }
-        .express { background: linear-gradient(135deg, #000000, #404040); }
-        .html { background: linear-gradient(135deg, #e34f26, #f06529); }
-        .css { background: linear-gradient(135deg, #1572b6, #33a9dc); }
+        /* .material-ui { background: linear-gradient(135deg, #0081cb, #1976d2); } */
+        /* .nodejs { background: linear-gradient(135deg, #339933, #66bb6a); } */
+        /* .express { background: linear-gradient(135deg, #000000, #404040); } */
+        /* .html { background: linear-gradient(135deg, #e34f26, #f06529); } */
+        /* .css { background: linear-gradient(135deg, #1572b6, #33a9dc); } */
 
         /* Tools & Platform */
         .aws { background: linear-gradient(135deg, #ff9900, #ec7211); }
