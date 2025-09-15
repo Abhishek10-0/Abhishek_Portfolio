@@ -1080,7 +1080,6 @@ article[data-page].active {
 /*-----------------------------------*\
   #PORTFOLIO
 \*-----------------------------------*/
-
 .filter-list { display: none; }
 
 .filter-select-box {
@@ -1145,10 +1144,13 @@ article[data-page].active {
   margin-bottom: 10px;
 }
 
-.project-item { display: none; }
+/* ADD THIS MISSING RULE - This is what you were missing! */
+.project-item { 
+  display: none; 
+}
 
 .project-item.active {
-  display: block;
+  display: block !important;
   animation: scaleUp 0.25s ease forwards;
 }
 
@@ -1230,6 +1232,23 @@ article[data-page].active {
   color: var(--light-gray-70);
   font-size: var(--fs-6);
   font-weight: var(--fw-300);
+}
+
+/* ADD THESE ADDITIONAL RULES FOR BETTER FUNCTIONALITY */
+@media (min-width: 580px) {
+  .filter-list { 
+    display: flex; 
+    justify-content: flex-start;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 25px;
+  }
+  
+  .filter-select-box { display: none; }
+  
+  .project-list {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
 }
 
 

@@ -8,7 +8,9 @@ const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 
 // sidebar toggle functionality for mobile
-sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
+if (sidebarBtn) {
+  sidebarBtn.addEventListener("click", function () { elementToggleFunc(sidebar); });
+}
 
 // testimonials variables
 const testimonialsItem = document.querySelectorAll("[data-testimonials-item]");
@@ -54,27 +56,17 @@ if (overlay) {
   overlay.addEventListener("click", testimonialsModalFunc);
 }
 
+// PROJECTS FILTER SYSTEM - FIXED VERSION
 // custom select variables
 const select = document.querySelector("[data-select]");
 const selectItems = document.querySelectorAll("[data-select-item]");
 const selectValue = document.querySelector("[data-selecct-value]");
 const filterBtn = document.querySelectorAll("[data-filter-btn]");
 
-select.addEventListener("click", function () { elementToggleFunc(this); });
-
-// add event in all select items
-for (let i = 0; i < selectItems.length; i++) {
-  selectItems[i].addEventListener("click", function () {
-    let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
-    elementToggleFunc(select);
-    filterFunc(selectedValue);
-  });
-}
-
 // filter variables
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
+// Improved filter function
 const filterFunc = function (selectedValue) {
   for (let i = 0; i < filterItems.length; i++) {
     if (selectedValue === "all") {
@@ -87,15 +79,52 @@ const filterFunc = function (selectedValue) {
   }
 }
 
+// Initialize the filter system when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  // Show all project items by default
+  filterFunc("all");
+  
+  // Set initial select value
+  if (selectValue) {
+    selectValue.innerText = "All";
+  }
+  
+  // Make sure first filter button is active
+  if (filterBtn.length > 0) {
+    filterBtn[0].classList.add("active");
+  }
+});
+
+// Handle dropdown selection
+if (select) {
+  select.addEventListener("click", function () { elementToggleFunc(this); });
+}
+
+// add event in all select items
+for (let i = 0; i < selectItems.length; i++) {
+  selectItems[i].addEventListener("click", function () {
+    let selectedValue = this.innerText.toLowerCase();
+    if (selectValue) {
+      selectValue.innerText = this.innerText;
+    }
+    elementToggleFunc(select);
+    filterFunc(selectedValue);
+  });
+}
+
 // add event in all filter button items for large screen
 let lastClickedBtn = filterBtn[0];
 
 for (let i = 0; i < filterBtn.length; i++) {
   filterBtn[i].addEventListener("click", function () {
     let selectedValue = this.innerText.toLowerCase();
-    selectValue.innerText = this.innerText;
+    if (selectValue) {
+      selectValue.innerText = this.innerText;
+    }
     filterFunc(selectedValue);
-    lastClickedBtn.classList.remove("active");
+    if (lastClickedBtn) {
+      lastClickedBtn.classList.remove("active");
+    }
     this.classList.add("active");
     lastClickedBtn = this;
   });
@@ -110,7 +139,7 @@ const formBtn = document.querySelector("[data-form-btn]");
 for (let i = 0; i < formInputs.length; i++) {
   formInputs[i].addEventListener("input", function () {
     // check form validation
-    if (form.checkValidity()) {
+    if (form && form.checkValidity()) {
       formBtn.removeAttribute("disabled");
     } else {
       formBtn.setAttribute("disabled", "");
@@ -118,14 +147,14 @@ for (let i = 0; i < formInputs.length; i++) {
   });
 }
 
-// ✅ FIXED PAGE NAVIGATION
+// PAGE NAVIGATION - FIXED VERSION
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
 // Create a mapping for navigation text to page data attributes
 const pageMapping = {
   'home': 'home',
-  'about': 'about',
+  'about': 'about', 
   'education': 'education',
   'experience': 'experience',
   'projects': 'projects',
@@ -143,21 +172,22 @@ navigationLinks.forEach(link => {
     // Map the navigation text to the correct page identifier
     const targetPage = pageMapping[navText] || navText;
     
-    console.log('Nav clicked:', navText, 'Target page:', targetPage); // Debug log
-    
     // Hide all pages first
     pages.forEach(page => {
       page.classList.remove("active");
-      console.log('Page found:', page.dataset.page); // Debug log
     });
     
     // Show the target page
     const targetPageElement = document.querySelector(`[data-page="${targetPage}"]`);
     if (targetPageElement) {
       targetPageElement.classList.add("active");
-      console.log('Activated page:', targetPage); // Debug log
-    } else {
-      console.error('Page not found:', targetPage); // Debug log
+      
+      // If switching to projects page, ensure all items are visible
+      if (targetPage === 'projects') {
+        setTimeout(() => {
+          filterFunc("all");
+        }, 100);
+      }
     }
     
     // Update navigation active state
